@@ -1,0 +1,6 @@
+@CaseFlow.Api_HostAddress = http://localhost:5012
+
+GET {{CaseFlow.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

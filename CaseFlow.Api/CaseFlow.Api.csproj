@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CaseFlow.Persistence\CaseFlow.Persistence.csproj" />
+    <ProjectReference Include="..\SprintDesk.Application\CaseFlow.Application.csproj" />
+    <ProjectReference Include="..\SprintDesk.Domain\CaseFlow.Domain.csproj" />
+    <ProjectReference Include="..\SprintDesk.Infrastructure\CaseFlow.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
