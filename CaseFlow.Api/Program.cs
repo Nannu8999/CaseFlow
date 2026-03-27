@@ -1,4 +1,5 @@
-﻿using CaseFlow.Persistence.Context;
+﻿using CaseFlow.Application.Interfaces;
+using CaseFlow.Persistence.Context;
 using CaseFlow.Domain.Interfaces;
 using CaseFlow.Infrastructure.Repository;
 using CaseFlow.Application.Services;
@@ -14,12 +15,7 @@ builder.Services.AddSwaggerGen();
 
 // dependency injection for the database context and repositories
 builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-builder.Services.AddScoped<OrganizationService>();
-
-
-
-
-
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
