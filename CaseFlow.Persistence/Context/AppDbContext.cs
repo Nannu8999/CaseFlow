@@ -10,36 +10,7 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Organization> Organizations { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
