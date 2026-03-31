@@ -11,4 +11,9 @@ public class User
     public string Role { get; set; } = "Employee";
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+
+    // Navigation
+    public ICollection<Case> AssignedCases { get; set; } = new List<Case>();
+    public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+    public UserSettings? Settings { get; set; }
 }

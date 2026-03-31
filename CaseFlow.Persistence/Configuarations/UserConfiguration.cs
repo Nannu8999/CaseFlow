@@ -46,6 +46,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnType("varchar(50)")
             .HasDefaultValue("Employee");
 
+        builder.ToTable(t => t.HasCheckConstraint("chk_role", "role IN ('Admin', 'Manager', 'Employee')"));
+
         builder.Property(u => u.CreatedAt)
             .HasColumnName("created_at")
             .HasColumnType("timestamp with time zone")
