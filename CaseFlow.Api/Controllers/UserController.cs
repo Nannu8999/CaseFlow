@@ -1,19 +1,23 @@
 using CaseFlow.Application.DTOs.User.Requests;
 using CaseFlow.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaseFlow.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IAuthService _authService;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(IUserService userService, ILogger<UserController> logger)
+    public UserController(IUserService userService, IAuthService authService, ILogger<UserController> logger)
     {
         _userService = userService;
+        _authService = authService;
         _logger = logger;
     }
 
@@ -21,6 +25,28 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetAllUsers()
     {
         var users = await _userService.GetAllUsersAsync();
+        return Ok(users);
+    }
+
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var userId = _authService.GetUserIdFromToken(User);
+        if (userId is null) return Unauthorized();
+
+        var user = await _userService.GetUserByIdAsync(userId.Value);
+        if (user is null) return NotFound();
+
+        return Ok(user);
+    }
+
+    [HttpGet("my-organization")]
+    public async Task<IActionResult> GetMyOrganizationUsers()
+    {
+        var organizationId = _authService.GetOrganizationIdFromToken(User);
+        if (organizationId is null) return Unauthorized();
+
+        var users = await _userService.GetUsersByOrganizationAsync(organizationId.Value);
         return Ok(users);
     }
 
@@ -44,6 +70,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateUser([FromBody] UserRequest request)
     {
         var created = await _userService.CreateUserAsync(request);
