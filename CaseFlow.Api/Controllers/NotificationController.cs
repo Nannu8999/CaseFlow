@@ -35,7 +35,7 @@ public class NotificationController : ControllerBase
     public async Task<IActionResult> Create([FromBody] NotificationRequest request)
     {
         var created = await _notificationService.CreateAsync(request);
-        return StatusCode(201, created);
+        return StatusCode(StatusCodes.Status201Created, created);
     }
 
     [HttpPatch("{id:guid}/read")]

@@ -1,4 +1,5 @@
 using CaseFlow.Domain.Entity;
+using CaseFlow.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -43,12 +44,14 @@ public class CaseConfiguration : IEntityTypeConfiguration<Case>
         builder.Property(c => c.Priority)
             .HasColumnName("priority")
             .HasColumnType("varchar(20)")
-            .HasDefaultValue("Medium");
+            .HasDefaultValue(CasePriority.Medium)
+            .HasConversion<string>();
 
         builder.Property(c => c.Status)
             .HasColumnName("status")
             .HasColumnType("varchar(50)")
-            .HasDefaultValue("Open");
+            .HasDefaultValue(CaseStatus.Open)
+            .HasConversion<string>();
 
         builder.Property(c => c.CreatedAt)
             .HasColumnName("created_at")

@@ -1,3 +1,5 @@
+using CaseFlow.Domain.Enums;
+
 namespace CaseFlow.Domain.Entity;
 
 public class User
@@ -8,7 +10,7 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
     public Guid OrganizationId { get; set; }
     public Organization Organization { get; set; } = null!;
-    public string Role { get; set; } = "Employee";
+    public UserRole Role { get; set; } = UserRole.Employee;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

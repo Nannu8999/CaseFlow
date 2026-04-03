@@ -3,6 +3,7 @@ using CaseFlow.Application.DTOs.User.Responses;
 using CaseFlow.Application.Interfaces;
 using CaseFlow.Domain.Entity;
 using CaseFlow.Domain.Interfaces;
+
 using System.Security.Cryptography;
 using System.Text;
 
@@ -14,7 +15,7 @@ public class UserService : IUserService
 
     public UserService(IUserRepository userRepository)
     {
-        _userRepository = userRepository;
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
     public async Task<List<UserResponse>> GetAllUsersAsync()

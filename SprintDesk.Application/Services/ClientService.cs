@@ -10,7 +10,10 @@ public class ClientService : IClientService
 {
     private readonly IClientRepository _repository;
 
-    public ClientService(IClientRepository repository) => _repository = repository;
+    public ClientService(IClientRepository repository)
+    {
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
 
     public async Task<List<ClientResponse>> GetAllAsync()
         => (await _repository.GetAllAsync()).Select(MapToResponse).ToList();

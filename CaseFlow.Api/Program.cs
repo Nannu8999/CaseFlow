@@ -1,9 +1,8 @@
 ﻿using CaseFlow.Application.Interfaces;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using CaseFlow.Application.Services;
-using CaseFlow.Domain.Interfaces;
-using CaseFlow.Infrastructure.Repository;
+using CaseFlow.Api.Extensions;
+using CaseFlow.Api.Middleware;
 using CaseFlow.Persistence.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -90,31 +89,8 @@ builder.Services.AddCors(options =>
 });
 
 // Dependency injection
-builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-builder.Services.AddScoped<IOrganizationService, OrganizationService>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IClientService, ClientService>();
-
-builder.Services.AddScoped<ICaseRepository, CaseRepository>();
-builder.Services.AddScoped<ICaseService, CaseService>();
-
-builder.Services.AddScoped<ICaseFileRepository, CaseFileRepository>();
-builder.Services.AddScoped<ICaseFileService, CaseFileService>();
-
-builder.Services.AddScoped<ICaseStatusHistoryRepository, CaseStatusHistoryRepository>();
-builder.Services.AddScoped<ICaseStatusHistoryService, CaseStatusHistoryService>();
-
-builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
-
-builder.Services.AddScoped<IUserSettingsRepository, UserSettingsRepository>();
-builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
+builder.Services.AddInfrastructureRepositories();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -138,6 +114,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();

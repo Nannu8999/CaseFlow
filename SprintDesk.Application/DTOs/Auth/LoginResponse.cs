@@ -1,3 +1,5 @@
+using CaseFlow.Domain.Enums;
+
 namespace CaseFlow.Application.DTOs.Auth;
 
 public class LoginResponse
@@ -7,6 +9,6 @@ public class LoginResponse
     public Guid UserId { get; set; }
     public string FullName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public string Role { get; set; } = string.Empty;
+    public UserRole Role { get; set; }
     public Guid OrganizationId { get; set; }
 }

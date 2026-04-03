@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CaseFlow.Domain.Enums;
 
 namespace CaseFlow.Application.DTOs.Cases.Requests;
 
@@ -8,8 +9,7 @@ public class CaseStatusHistoryRequest
     public Guid CaseId { get; set; }
 
     [Required]
-    [MaxLength(50)]
-    public string Status { get; set; } = string.Empty;
+    public CaseStatus Status { get; set; }
 
     public Guid? ChangedBy { get; set; }
     public string? Remarks { get; set; }

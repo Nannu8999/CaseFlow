@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CaseFlow.Domain.Enums;
 
 namespace CaseFlow.Application.DTOs.User.Requests;
 
@@ -19,6 +20,5 @@ public class UserRequest
     [Required]
     public Guid OrganizationId { get; set; }
 
-    [MaxLength(50)]
-    public string Role { get; set; } = "Employee";
+    public UserRole Role { get; set; } = UserRole.Employee;
 }

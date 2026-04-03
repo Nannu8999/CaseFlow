@@ -1,4 +1,5 @@
 using CaseFlow.Domain.Entity;
+using CaseFlow.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -44,7 +45,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Role)
             .HasColumnName("role")
             .HasColumnType("varchar(50)")
-            .HasDefaultValue("Employee");
+            .HasDefaultValue(UserRole.Employee)
+            .HasConversion<string>();
 
         builder.ToTable(t => t.HasCheckConstraint("chk_role", "role IN ('Admin', 'Manager', 'Employee')"));
 

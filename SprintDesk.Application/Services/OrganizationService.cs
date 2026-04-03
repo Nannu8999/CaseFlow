@@ -12,7 +12,7 @@ public class OrganizationService : IOrganizationService
 
     public OrganizationService(IOrganizationRepository organizationRepository)
     {
-        _organizationRepository = organizationRepository;
+        _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
     }
 
     public async Task<List<OrganizationResponse>> GetAllOrganizationsAsync()

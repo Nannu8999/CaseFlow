@@ -38,7 +38,7 @@ public class UserSettingsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] UserSettingsRequest request)
     {
         var created = await _settingsService.CreateAsync(request);
-        return StatusCode(201, created);
+        return StatusCode(StatusCodes.Status201Created, created);
     }
 
     [HttpPut]

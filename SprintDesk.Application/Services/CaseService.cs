@@ -9,7 +9,10 @@ public class CaseService : ICaseService
 {
     private readonly ICaseRepository _repository;
 
-    public CaseService(ICaseRepository repository) => _repository = repository;
+    public CaseService(ICaseRepository repository)
+    {
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
 
     public async Task<List<CaseResponse>> GetAllAsync()
         => (await _repository.GetAllAsync()).Select(MapToResponse).ToList();
@@ -31,6 +34,8 @@ public class CaseService : ICaseService
 
     public async Task<CaseResponse> CreateAsync(CaseRequest request)
     {
+        ArgumentNullException.ThrowIfNull(request);
+
         var caseEntity = new CaseFlow.Domain.Entity.Case
         {
             Id = Guid.NewGuid(),
@@ -49,6 +54,8 @@ public class CaseService : ICaseService
 
     public async Task<CaseResponse?> UpdateAsync(Guid id, CaseRequest request)
     {
+        ArgumentNullException.ThrowIfNull(request);
+
         var caseEntity = new CaseFlow.Domain.Entity.Case
         {
             Id = id,
@@ -82,3 +89,4 @@ public class CaseService : ICaseService
         UpdatedAt = c.UpdatedAt
     };
 }
+

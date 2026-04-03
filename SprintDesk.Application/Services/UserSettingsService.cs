@@ -10,7 +10,10 @@ public class UserSettingsService : IUserSettingsService
 {
     private readonly IUserSettingsRepository _repository;
 
-    public UserSettingsService(IUserSettingsRepository repository) => _repository = repository;
+    public UserSettingsService(IUserSettingsRepository repository)
+    {
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
 
     public async Task<UserSettingsResponse?> GetByUserIdAsync(Guid userId)
     {

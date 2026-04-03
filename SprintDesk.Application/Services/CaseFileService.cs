@@ -10,7 +10,10 @@ public class CaseFileService : ICaseFileService
 {
     private readonly ICaseFileRepository _repository;
 
-    public CaseFileService(ICaseFileRepository repository) => _repository = repository;
+    public CaseFileService(ICaseFileRepository repository)
+    {
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
 
     public async Task<List<CaseFileResponse>> GetByCaseIdAsync(Guid caseId)
         => (await _repository.GetByCaseIdAsync(caseId)).Select(MapToResponse).ToList();

@@ -25,6 +25,7 @@ public class CaseStatusHistoryConfiguration : IEntityTypeConfiguration<CaseStatu
         builder.Property(h => h.Status)
             .HasColumnName("status")
             .HasColumnType("varchar(50)")
+            .HasConversion<string>()
             .IsRequired();
 
         builder.Property(h => h.ChangedBy)

@@ -10,7 +10,10 @@ public class NotificationService : INotificationService
 {
     private readonly INotificationRepository _repository;
 
-    public NotificationService(INotificationRepository repository) => _repository = repository;
+    public NotificationService(INotificationRepository repository)
+    {
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
 
     public async Task<List<NotificationResponse>> GetByUserIdAsync(Guid userId)
         => (await _repository.GetByUserIdAsync(userId)).Select(MapToResponse).ToList();

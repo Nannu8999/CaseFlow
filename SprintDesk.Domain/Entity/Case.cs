@@ -1,3 +1,5 @@
+using CaseFlow.Domain.Enums;
+
 namespace CaseFlow.Domain.Entity;
 
 public class Case
@@ -8,8 +10,8 @@ public class Case
     public Guid? AssignedTo { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string Priority { get; set; } = "Medium";
-    public string Status { get; set; } = "Open";
+    public CasePriority Priority { get; set; } = CasePriority.Medium;
+    public CaseStatus Status { get; set; } = CaseStatus.Open;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

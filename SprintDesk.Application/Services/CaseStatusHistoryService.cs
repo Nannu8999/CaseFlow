@@ -10,7 +10,10 @@ public class CaseStatusHistoryService : ICaseStatusHistoryService
 {
     private readonly ICaseStatusHistoryRepository _repository;
 
-    public CaseStatusHistoryService(ICaseStatusHistoryRepository repository) => _repository = repository;
+    public CaseStatusHistoryService(ICaseStatusHistoryRepository repository)
+    {
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
 
     public async Task<List<CaseStatusHistoryResponse>> GetByCaseIdAsync(Guid caseId)
         => (await _repository.GetByCaseIdAsync(caseId)).Select(MapToResponse).ToList();
