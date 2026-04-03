@@ -1,10 +1,12 @@
-﻿using CaseFlow.Application.DTOs.Organization.Requests;
+﻿using Asp.Versioning;
+using CaseFlow.Application.DTOs.Organization.Requests;
 using CaseFlow.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaseFlow.Api.Controllers;
 
-[Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
 public class OrganizationController : ControllerBase
 {

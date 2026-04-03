@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using CaseFlow.Application.DTOs.Client.Requests;
 using CaseFlow.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -5,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CaseFlow.Api.Controllers;
 
-[Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
 [Authorize]
 public class ClientController : ControllerBase
