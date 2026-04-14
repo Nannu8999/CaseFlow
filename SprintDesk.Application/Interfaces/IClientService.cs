@@ -8,7 +8,7 @@ public interface IClientService
     Task<List<ClientResponse>> GetAllAsync();
     Task<ClientResponse?> GetByIdAsync(Guid id);
     Task<List<ClientResponse>> GetByOrganizationIdAsync(Guid organizationId);
-    Task<ClientResponse> CreateAsync(ClientRequest request);
-    Task<ClientResponse?> UpdateAsync(Guid id, ClientRequest request);
+    Task<ClientResponse> CreateAsync(ClientRequest request, Guid organizationId);
+    Task<ClientResponse?> UpdateAsync(Guid id, ClientRequest request, Guid organizationId);
     Task<bool> DeleteAsync(Guid id);
 }

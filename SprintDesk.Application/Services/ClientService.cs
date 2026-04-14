@@ -27,12 +27,14 @@ public class ClientService : IClientService
     public async Task<List<ClientResponse>> GetByOrganizationIdAsync(Guid organizationId)
         => (await _repository.GetByOrganizationIdAsync(organizationId)).Select(MapToResponse).ToList();
 
-    public async Task<ClientResponse> CreateAsync(ClientRequest request)
+    public async Task<ClientResponse> CreateAsync(ClientRequest request, Guid organizationId)
     {
+        ArgumentNullException.ThrowIfNull(request);
+
         var client = new Client
         {
             Id = Guid.NewGuid(),
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             Name = request.Name,
             Email = request.Email,
             Phone = request.Phone,
@@ -43,12 +45,14 @@ public class ClientService : IClientService
         return MapToResponse(await _repository.CreateAsync(client));
     }
 
-    public async Task<ClientResponse?> UpdateAsync(Guid id, ClientRequest request)
+    public async Task<ClientResponse?> UpdateAsync(Guid id, ClientRequest request, Guid organizationId)
     {
+        ArgumentNullException.ThrowIfNull(request);
+
         var client = new Client
         {
             Id = id,
-            OrganizationId = request.OrganizationId,
+            OrganizationId = organizationId,
             Name = request.Name,
             Email = request.Email,
             Phone = request.Phone,

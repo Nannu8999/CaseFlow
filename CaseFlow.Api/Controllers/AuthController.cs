@@ -23,6 +23,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var response = await _authService.LoginAsync(request);
+
         if (response is null)
         {
             _logger.LogWarning("Failed login attempt for email {Email}.", request.Email);

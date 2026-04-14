@@ -13,11 +13,13 @@ namespace CaseFlow.Api.Controllers;
 public class ClientController : ControllerBase
 {
     private readonly IClientService _clientService;
+    private readonly IAuthService _authService;
     private readonly ILogger<ClientController> _logger;
 
-    public ClientController(IClientService clientService, ILogger<ClientController> logger)
+    public ClientController(IClientService clientService, IAuthService authService, ILogger<ClientController> logger)
     {
         _clientService = clientService;
+        _authService = authService;
         _logger = logger;
     }
 
@@ -33,21 +35,31 @@ public class ClientController : ControllerBase
         return Ok(client);
     }
 
-    [HttpGet("organization/{organizationId:guid}")]
-    public async Task<IActionResult> GetByOrganization(Guid organizationId)
-        => Ok(await _clientService.GetByOrganizationIdAsync(organizationId));
+    [HttpGet("my-organization")]
+    public async Task<IActionResult> GetByOrganization()
+    {
+        var organizationId = _authService.GetOrganizationIdFromToken(User);
+        if (organizationId is null) return Unauthorized();
+        return Ok(await _clientService.GetByOrganizationIdAsync(organizationId.Value));
+    }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] ClientRequest request)
     {
-        var created = await _clientService.CreateAsync(request);
+        var organizationId = _authService.GetOrganizationIdFromToken(User);
+        if (organizationId is null) return Unauthorized();
+
+        var created = await _clientService.CreateAsync(request, organizationId.Value);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] ClientRequest request)
     {
-        var updated = await _clientService.UpdateAsync(id, request);
+        var organizationId = _authService.GetOrganizationIdFromToken(User);
+        if (organizationId is null) return Unauthorized();
+
+        var updated = await _clientService.UpdateAsync(id, request, organizationId.Value);
         if (updated is null) { _logger.LogWarning("Client {Id} not found for update.", id); return NotFound(); }
         return Ok(updated);
     }
